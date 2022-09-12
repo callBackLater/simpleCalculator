@@ -1,33 +1,41 @@
-document.getElementById('equal').addEventListener('click', calc);
+document.getElementById("equal").addEventListener("click", getNumberAndToFixed);
+document.getElementById("equal").addEventListener("click", saveResults);
 
-function calc() {
-    let a = +document.getElementById('a').value;
-    let b = +document.getElementById('b').value;
-    let operator = document.getElementById('select').value;
-    let result = document.querySelector('.result');
+const a = document.getElementById("a");
+const b = document.getElementById("b");
+const operator = document.getElementById("select");
+const result = document.querySelector(".result");
 
-    if (isNaN(a) || isNaN(b) || a == ''|| b == '') {
-        container.classList.add('error');
-        setTimeout(() => container.classList.remove('error'), 300)
-    } else {
-        switch(operator) {
-            case 'add':
-                result.innerHTML = Number((a + b).toFixed(4));
-                break;
-            case 'subtract':
-                result.innerHTML = Number((a - b).toFixed(4));
-                break;
-            case 'multi':
-                result.innerHTML = Number((a * b).toFixed(4));
-                break;
-            case 'divide':
-                result.innerHTML = Number((a / b).toFixed(4));
-                break;
-                default:
-                    alert('Houston, we have a problem');
-                }
-        let div2 = result.cloneNode(true);
-        saveresult.append(div2);
-        div2.setAttribute('onclick', 'this.remove()');
-    }
+function getNumberAndToFixed() {
+  if (isNotValidData()) return result.textContent = "Error";
+  result.textContent = Number(calc().toFixed(3));
+}
+
+const calc = function () {
+  switch (operator.value) {
+    case "add":
+      return Number(a.value) + Number(b.value);
+    case "subtract":
+      return a.value - b.value;
+    case "multi":
+      return a.value * b.value;
+    case "divide":
+      return a.value / b.value;
+    default:
+      alert("Houston, we have a problem");
+  }
+};
+
+function saveResults() {
+  let div2 = result.cloneNode(true);
+  saveresult.append(div2);
+  div2.setAttribute("onclick", "this.remove()");
+}
+
+function isNotValidData() {
+  if (isNaN(a.value) || isNaN(b.value) || a.value == "" || b.value == "") {
+    container.classList.add("error");
+    setTimeout(() => container.classList.remove("error"), 300);
+    return true;
+  }
 }
